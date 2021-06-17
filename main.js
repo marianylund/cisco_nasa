@@ -37,10 +37,10 @@ function showText(exp) {
   console.log("Showing text");
 
   const expSeparated = parts(exp);
-  const throttleTime = 2000;
+  const throttleTime = 6000;
   expSeparated.forEach(function (textLine, i){
     setTimeout(() => {
-       xapi.Command.UserInterface.Message.TextLine.Display({ Duration: 2, Text: textLine, X: 5000, Y: 5000});
+       xapi.Command.UserInterface.Message.TextLine.Display({ Duration: 6, Text: textLine, X: 5000, Y: 5000});
       console.log(textLine);
      }, throttleTime * (i + 1));
    });
