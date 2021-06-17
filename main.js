@@ -17,18 +17,16 @@ async function init() {
   const expSeparated = parts(exp);
   // xapi.Command.UserInterface.Message.Prompt.Display
   //  ({ Duration: 10, FeedbackId: 0, "Option.1": expSeparated[1], "Option.2": expSeparated[2], "Option.3": expSeparated[3], "Option.4": expSeparated[4], "Option.5": expSeparated[5], Text: expSeparated[0], Title: title});
-      xapi.Command.UserInterface.Message.TextLine.Display({ Duration: 10, Text: expSeparated[0], X: 1500, Y: 1500});
+      
   
   const throttleTime = 500;
-  // expSeparated.forEach(function (textLine, i){
-  //   setTimeout(() => {
-  //     console.log(textLine, i);
-  //     xapi.Command.UserInterface.Message.TextLine.Display({ Duration: 2, Text: textLine, X: 500, Y: 500});
+  expSeparated.forEach(function (textLine, i){
+    setTimeout(() => {
+       xapi.Command.UserInterface.Message.TextLine.Display({ Duration: 2, Text: textLine, X: 5000, Y: 5000});
 
-  //   }, throttleTime * (i + 1));
-  // });
+     }, throttleTime * (i + 1));
+   });
 
-  console.log(url, title, exp, type);
   //addManagerPanel(title, exp)
   /*
   xapi.Command.Cameras.Background.Fetch({Image: 'User1', Url: url});
@@ -47,24 +45,8 @@ function parts(str) {
 
 async function addManagerPanel(title, exp) {
   console.info('Adding panel');
-  
-  const xmlTextLines = exp.map((textLine) => {
-    return `
-      <Row>
-        <Name>${textLine}</Name>
-      </Row>
-    `;
-  }).join('\n');
 
-  console.log(xmlTextLines);
-
-  const xmlEnd = `</Page>
-    </Panel>
-  </Extensions> 
-    `
-  console.log(xmlEnd);
-
-  const xmlStart = `<Extensions>
+  const xml = `<Extensions>
   <Version>1.7</Version>
   <Panel>
     <Order>1000</Order>
@@ -73,14 +55,8 @@ async function addManagerPanel(title, exp) {
     <Color>#07C1E4</Color> 
     <Name>Nasa Daily</Name>
     <ActivityType>Custom</ActivityType>
-    <Page>
-      <Name>${title}</Name>` + xmlTextLines;
-      
-  console.log(xmlStart);
-
-  const xml = xmlStart + xmlEnd;
-  console.log(xml);
-
+     </Panel>
+  </Extensions> `
 
   await xapi.Command.UserInterface.Extensions.Panel.Save({
     PanelId: 'nasaPanel',
