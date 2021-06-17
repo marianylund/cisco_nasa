@@ -27,29 +27,29 @@ async function init() {
 
 function changePic(url) {
   console.log("Changing pic");
+  xapi.Command.UserInterface.Branding.Fetch({Type: "HalfwakeBackground", URL: url});
+  // TODO: if DX80 then do not
   xapi.Command.Cameras.Background.Fetch({Image: 'User1', Url: url});
-  xapi.Command.Cameras.Background.Set
-    ({ Image: 'User1', Mode: 'Image'});
+  xapi.Command.Cameras.Background.Set({ Image: 'User1', Mode: 'Image'});
 }
 
 function showText(exp) {
   console.log("Showing text");
 
   const expSeparated = parts(exp);
-  const throttleTime = 500;
+  const throttleTime = 2000;
   expSeparated.forEach(function (textLine, i){
     setTimeout(() => {
        xapi.Command.UserInterface.Message.TextLine.Display({ Duration: 2, Text: textLine, X: 5000, Y: 5000});
-
+      console.log(textLine);
      }, throttleTime * (i + 1));
    });
-   xapi.Command.UserInterface.Extensions.Clear
-    ({ });
+
+   xapi.Command.UserInterface.Extensions.Clear({ });
 }
 
 function parts(str) {
   const listOfStrings = str.match(/.{1,100}/g);
-  console.log(listOfStrings);
   return listOfStrings;
 }
 
@@ -76,8 +76,8 @@ async function addManagerPanel(title, exp) {
   // Update manager on layout change
   xapi.Event.UserInterface.Extensions.Widget.LayoutUpdated.once(addManagerPanel);
 
-  xapi.Command.UserInterface.Extensions.Panel.Open
-    ({ PanelId: 'nasaPanel'});
+  // xapi.Command.UserInterface.Extensions.Panel.Open
+  //   ({ PanelId: 'nasaPanel'});
 }
 
 init();
