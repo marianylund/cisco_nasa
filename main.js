@@ -28,11 +28,14 @@ async function init() {
    });
 
   //addManagerPanel(title, exp)
-  /*
+  //changePic(url)
+ 
+}
+
+function changePic(url) {
   xapi.Command.Cameras.Background.Fetch({Image: 'User1', Url: url});
   xapi.Command.Cameras.Background.Set
     ({ Image: 'User1', Mode: 'Image'});
-  */
 }
 
 function parts(str) {
@@ -40,7 +43,10 @@ function parts(str) {
   console.log(listOfStrings);
   return listOfStrings;
 }
-  
+
+function onClick() {
+
+}
 
 
 async function addManagerPanel(title, exp) {
@@ -71,3 +77,4 @@ async function addManagerPanel(title, exp) {
 
 
 init();
+
