@@ -14,24 +14,27 @@ async function init() {
   const exp = JSON.explanation;
   const type = JSON.media_type;
 
+  addManagerPanel(title, exp);
+
   xapi.Event.UserInterface.Extensions.Panel.Clicked.on(async (event) => {
     if (event.PanelId === 'nasaPanel') {
+      console.log("Clicked!");
         changePic(url);
         showText(exp);
     }});
-  //addManagerPanel(title, exp)
-  //changePic(url)
-  //showText(exp)
- 
+  
   };
 
 function changePic(url) {
+  console.log("Changing pic");
   xapi.Command.Cameras.Background.Fetch({Image: 'User1', Url: url});
   xapi.Command.Cameras.Background.Set
     ({ Image: 'User1', Mode: 'Image'});
 }
 
 function showText(exp) {
+  console.log("Showing text");
+
   const expSeparated = parts(exp);
   const throttleTime = 500;
   expSeparated.forEach(function (textLine, i){
@@ -51,9 +54,8 @@ function parts(str) {
 }
 
 
-
 async function addManagerPanel(title, exp) {
-  console.info('Adding panel');
+  console.log('Adding panel');
 
   const xml = `<Extensions>
   <Version>1.7</Version>
@@ -78,3 +80,4 @@ async function addManagerPanel(title, exp) {
     ({ PanelId: 'nasaPanel'});
 }
 
+init();
