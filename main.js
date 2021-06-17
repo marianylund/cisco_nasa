@@ -13,9 +13,14 @@ async function init() {
   const title = JSON.title;
   const exp = JSON.explanation;
   const type = JSON.media_type;
+
   console.log(url, title, exp, type);
-  xapi.Command.Cameras.Background.Fetch({Image: User1, Url: url});
-  xapi.Command.UserInterface.Branding.Fetch({Type: "HalfwakeBackground", URL: url});
+
+  /*
+  xapi.Command.Cameras.Background.Fetch({Image: 'User1', Url: url});
+  xapi.Command.Cameras.Background.Set
+    ({ Image: 'User1', Mode: 'Image'});
+  */
 }
 
 init();
