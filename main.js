@@ -15,7 +15,7 @@ async function init() {
   const type = JSON.media_type;
 
   console.log(url, title, exp, type);
-
+  addManagerPanel(title, exp)
   /*
   xapi.Command.Cameras.Background.Fetch({Image: 'User1', Url: url});
   xapi.Command.Cameras.Background.Set
@@ -23,7 +23,14 @@ async function init() {
   */
 }
 
-async function addManagerPanel() {
+function parts() {
+  const str = 'abcdefghijkl';
+  console.log(str.match(/.{1,3}/g));
+}
+  
+
+
+async function addManagerPanel(title,exp) {
   console.info('Adding panel');
 
   const xml = `<Extensions>
@@ -33,13 +40,13 @@ async function addManagerPanel() {
     <Type>Global</Type>
     <Icon>Language</Icon>
     <Color>#07C1E4</Color> 
-    <Name>Web apps</Name>
+    <Name>Nasa Daily</Name>
     <ActivityType>Custom</ActivityType>
     <Page>
-      <Name>Nasa Daily</Name>
-      <Row>
-        <Name>Hei Elise, Du er flott!</Name>
-      </Row>
+      <style>
+      <Name>${title}</Name>
+      <Name>${exp}</Name>
+      </style>
     </Page>
   </Panel>
 </Extensions> 
@@ -58,4 +65,3 @@ async function addManagerPanel() {
 
 
 init();
-addManagerPanel();
