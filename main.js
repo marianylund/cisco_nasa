@@ -14,11 +14,25 @@ async function init() {
   const exp = JSON.explanation;
   const type = JSON.media_type;
 
+  xapi.Event.UserInterface.Extensions.Panel.Clicked.on(async (event) => {
+    if (event.PanelId === 'nasaPanel') {
+        changePic(url);
+        showText(exp);
+    }});
+  //addManagerPanel(title, exp)
+  //changePic(url)
+  //showText(exp)
+ 
+  };
+
+function changePic(url) {
+  xapi.Command.Cameras.Background.Fetch({Image: 'User1', Url: url});
+  xapi.Command.Cameras.Background.Set
+    ({ Image: 'User1', Mode: 'Image'});
+}
+
+function showText(exp) {
   const expSeparated = parts(exp);
-  // xapi.Command.UserInterface.Message.Prompt.Display
-  //  ({ Duration: 10, FeedbackId: 0, "Option.1": expSeparated[1], "Option.2": expSeparated[2], "Option.3": expSeparated[3], "Option.4": expSeparated[4], "Option.5": expSeparated[5], Text: expSeparated[0], Title: title});
-      
-  
   const throttleTime = 500;
   expSeparated.forEach(function (textLine, i){
     setTimeout(() => {
@@ -26,16 +40,8 @@ async function init() {
 
      }, throttleTime * (i + 1));
    });
-
-  //addManagerPanel(title, exp)
-  //changePic(url)
- 
-}
-
-function changePic(url) {
-  xapi.Command.Cameras.Background.Fetch({Image: 'User1', Url: url});
-  xapi.Command.Cameras.Background.Set
-    ({ Image: 'User1', Mode: 'Image'});
+   xapi.Command.UserInterface.Extensions.Clear
+    ({ });
 }
 
 function parts(str) {
@@ -44,9 +50,6 @@ function parts(str) {
   return listOfStrings;
 }
 
-function onClick() {
-
-}
 
 
 async function addManagerPanel(title, exp) {
@@ -74,7 +77,4 @@ async function addManagerPanel(title, exp) {
   xapi.Command.UserInterface.Extensions.Panel.Open
     ({ PanelId: 'nasaPanel'});
 }
-
-
-init();
 
