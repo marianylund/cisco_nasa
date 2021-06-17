@@ -23,4 +23,39 @@ async function init() {
   */
 }
 
+async function addManagerPanel() {
+  console.info('Adding panel');
+
+  const xml = `<Extensions>
+  <Version>1.7</Version>
+  <Panel>
+    <Order>1000</Order>
+    <Type>Global</Type>
+    <Icon>Language</Icon>
+    <Color>#07C1E4</Color> 
+    <Name>Web apps</Name>
+    <ActivityType>Custom</ActivityType>
+    <Page>
+      <Name>Nasa Daily</Name>
+      <Row>
+        <Name>Hei Elise, Du er flott!</Name>
+      </Row>
+    </Page>
+  </Panel>
+</Extensions> 
+  `
+
+  await xapi.Command.UserInterface.Extensions.Panel.Save({
+    PanelId: 'nasaPanel',
+  }, xml);
+
+  // Update manager on layout change
+  xapi.Event.UserInterface.Extensions.Widget.LayoutUpdated.once(addManagerPanel);
+
+  xapi.Command.UserInterface.Extensions.Panel.Open
+    ({ PanelId: 'nasaPanel'});
+}
+
+
 init();
+addManagerPanel();
