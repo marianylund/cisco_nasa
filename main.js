@@ -53,6 +53,29 @@ function parts(str) {
   return listOfStrings;
 }
 
+function wordWrap(str, charMax) {
+    let arr = [];
+    let space = /\s/;
+
+    const words = str.split(space);
+    // push first word into new array
+    if (words[0].length) {
+        arr.push(words[0]);
+    }
+
+    for (let i = 1; i < words.length; i++) {
+        if (words[i].length + arr[arr.length - 1].length < charMax) {
+            arr[arr.length - 1] = `${arr[arr.length - 1]} ${words[i
+            ]}`;
+        } else {
+            arr.push(words[i]);
+        }
+    }
+
+    //console.log('arr', arr);
+    return arr;
+}
+
 
 async function addManagerPanel(title, exp) {
   console.log('Adding panel');
