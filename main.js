@@ -8,19 +8,19 @@ return xapi.Command.HttpClient.Get({ Url: url })
 }
 
 async function init() {
-  const JSON = await getJSON();
-  const url = JSON.url;
-  const title = JSON.title;
-  const exp = JSON.explanation;
-  const type = JSON.media_type;
 
-  addManagerPanel(title, exp);
+  addDailyPanel();
 
   xapi.Event.UserInterface.Extensions.Panel.Clicked.on(async (event) => {
     if (event.PanelId === 'nasaPanel') {
       console.log("Clicked!");
-        changePic(url);
-        showText(exp);
+      const JSON = await getJSON();
+      const url = JSON.url;
+      const title = JSON.title;
+      const exp = JSON.explanation;
+      console.log("Fetched from API.");
+      changePic(url);
+      showText(exp, title);
     }});
   
   };
@@ -33,14 +33,15 @@ function changePic(url) {
   xapi.Command.Cameras.Background.Set({ Image: 'User1', Mode: 'Image'});
 }
 
-function showText(exp) {
+function showText(exp, title) {
   console.log("Showing text");
-
   const expSeparated = parts(exp);
   const throttleTime = 6000;
+  xapi.Command.UserInterface.Message.TextLine.Display({ Duration: 6, Text: title, X: 5000, Y: 1000});
+  console.log(title);
   expSeparated.forEach(function (textLine, i){
     setTimeout(() => {
-       xapi.Command.UserInterface.Message.TextLine.Display({ Duration: 6, Text: textLine, X: 5000, Y: 5000});
+       xapi.Command.UserInterface.Message.TextLine.Display({ Duration: 6, Text: textLine, X: 5000, Y: 1000});
       console.log(textLine);
      }, throttleTime * (i + 1));
    });
@@ -78,7 +79,7 @@ function wordWrap(str, charMax) {
 }
 
 
-async function addManagerPanel(title, exp) {
+async function addDailyPanel() {
   console.log('Adding panel');
 
   const xml = `<Extensions>
@@ -97,8 +98,8 @@ async function addManagerPanel(title, exp) {
     PanelId: 'nasaPanel',
   }, xml);
 
-  // Update manager on layout change
-  xapi.Event.UserInterface.Extensions.Widget.LayoutUpdated.once(addManagerPanel);
+  // Update on change
+  xapi.Event.UserInterface.Extensions.Widget.LayoutUpdated.once(addDailyPanel);
 
   // xapi.Command.UserInterface.Extensions.Panel.Open
   //   ({ PanelId: 'nasaPanel'});
