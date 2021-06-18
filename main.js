@@ -49,7 +49,8 @@ function showText(exp) {
 }
 
 function parts(str) {
-  const listOfStrings = str.match(/.{1,100}/g);
+  //const listOfStrings = str.match(/.{1,100}/g);
+  const listOfStrings = wordWrap(str, 100);
   return listOfStrings;
 }
 
